@@ -128,6 +128,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuCadastro.setText("Cadastros");
 
         jMenuItemCadMedicos.setText("Médicos");
+        jMenuItemCadMedicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadMedicosActionPerformed(evt);
+            }
+        });
         jMenuCadastro.add(jMenuItemCadMedicos);
 
         jMenuItemCadPacientes.setText("Pacientes");
@@ -193,7 +198,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemCadEnfemeirasActionPerformed
 
     private void jButtonCadMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadMedicoActionPerformed
-        // TODO add your handling code here:
+        FormMedico tela  = new FormMedico();
+        tela.setVisible(true);
     }//GEN-LAST:event_jButtonCadMedicoActionPerformed
 
     private void jButtonFecharBemVindoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharBemVindoActionPerformed
@@ -209,6 +215,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItemTelaBemVindoActionPerformed
+
+    private void jMenuItemCadMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadMedicosActionPerformed
+       FormMedico tela  = new FormMedico();
+       tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadMedicosActionPerformed
 
     /**
      * @param args the command line arguments
