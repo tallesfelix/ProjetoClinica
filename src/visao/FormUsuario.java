@@ -91,6 +91,11 @@ public class FormUsuario extends javax.swing.JFrame {
         });
 
         jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonExcluir.setText("Excluir");
 
@@ -263,6 +268,11 @@ public class FormUsuario extends javax.swing.JFrame {
         jPasswordFieldConfirmarSenha.setEnabled(false);
         jPasswordFieldSenha.setEnabled(false);
         jButtonSalvar.setEnabled(false);
+        } else{
+             mod.setUsuNome(jTextFieldUsuario.getText());
+            mod.setUsuTipo((String) jComboBoxTipo.getSelectedItem());
+            mod.setUsuSenha(jPasswordFieldSenha.getText());
+            dao.alterar(mod);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -274,6 +284,14 @@ public class FormUsuario extends javax.swing.JFrame {
         jPasswordFieldConfirmarSenha.setText((model.getUsuSenha()));
         jComboBoxTipo.setSelectedItem(model.getUsuTipo());
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        flag =2;
+        jTextFieldUsuario.setEnabled(true);
+        jComboBoxTipo.setEnabled(true);
+        jPasswordFieldSenha.setEnabled(true);
+        jPasswordFieldConfirmarSenha.setEnabled(true);
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
     
     /**
      * @param args the command line arguments
