@@ -75,4 +75,17 @@ public class DaoMedico {
         }
         conex.desconecta();
     }
+    
+    public void excluir (BeansMedico mod) {
+        conex.conexao();
+        try {
+            PreparedStatement pst = conex.con.prepareStatement("delete from medicos where cod_medico=?");
+            pst.setInt(1, mod.getCodigo());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Medico excluido com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir medico!" + ex);
+        }
+        conex.desconecta();
+    }
 }

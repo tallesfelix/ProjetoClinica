@@ -5,6 +5,7 @@
  */
 package visao;
 
+import javax.swing.JOptionPane;
 import modeloConection.ConexaoBD;
 import modeloDao.DaoMedico;
 import modeloBeans.BeansMedico;
@@ -109,6 +110,11 @@ public class FormMedico extends javax.swing.JFrame {
 
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.setEnabled(false);
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jTableMedicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -273,6 +279,7 @@ public class FormMedico extends javax.swing.JFrame {
         jComboBoxEspecialidade.setEnabled(false);
         jFormattedTextFieldCrm.setEnabled(false);
         jButtonSalvar.setEnabled(false);
+        jButtonCancelar.setEnabled(false);
         }else{
             mod.setCodigo(Integer.parseInt(jTCod.getText()));
             mod.setNome(jTextFieldNome.getText());
@@ -341,6 +348,27 @@ public class FormMedico extends javax.swing.JFrame {
         jButtonNovo.setEnabled(false);
         jButtonExcluir.setEnabled(false);
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        int resposta = 0;
+        resposta = JOptionPane.showConfirmDialog(rootPane, "Deseja realmente exlcuir?");
+        if(resposta == JOptionPane.YES_OPTION){
+            mod.setCodigo(Integer.parseInt(jTCod.getText()));
+            control.excluir(mod);
+            jTCod.setText("");
+            jTextFieldNome.setText("");
+            jFormattedTextFieldCrm.setText("");
+            jTextFieldNome.setEnabled(false);
+            jComboBoxEspecialidade.setEnabled(false);
+            jFormattedTextFieldCrm.setEnabled(false);
+            jButtonSalvar.setEnabled(false);
+            jButtonNovo.setEnabled(true);
+            jButtonCancelar.setEnabled(false);
+            jButtonEditar.setEnabled(false);
+            jButtonExcluir.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments
