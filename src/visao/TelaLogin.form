@@ -84,6 +84,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordFieldSenha">
       <Events>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jPasswordFieldSenhaInputMethodTextChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPasswordFieldSenhaActionPerformed"/>
       </Events>
       <Constraints>

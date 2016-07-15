@@ -137,6 +137,11 @@ public class FormUsuario extends javax.swing.JFrame {
 
             }
         ));
+        jTableUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableUsuarioMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableUsuario);
 
         jLabel2.setText("COD");
@@ -301,17 +306,29 @@ public class FormUsuario extends javax.swing.JFrame {
         jTextFieldUsuario.setText("");
         jPasswordFieldSenha.setText("");
         jPasswordFieldConfirmarSenha.setText("");
+        jTextFieldCod.setText("");
         
         jComboBoxTipo.setEnabled(false);
         jTextFieldUsuario.setEnabled(false);
         jPasswordFieldConfirmarSenha.setEnabled(false);
         jPasswordFieldSenha.setEnabled(false);
         jButtonSalvar.setEnabled(false);
-        } else{
+        } else if(flag==2){
+            mod.setUsuCod(Integer.parseInt(jTextFieldCod.getText()));
              mod.setUsuNome(jTextFieldUsuario.getText());
             mod.setUsuTipo((String) jComboBoxTipo.getSelectedItem());
             mod.setUsuSenha(jPasswordFieldSenha.getText());
             dao.alterar(mod);
+            jTextFieldUsuario.setText("");
+        jPasswordFieldSenha.setText("");
+        jPasswordFieldConfirmarSenha.setText("");
+        jTextFieldCod.setText("");
+        
+        jComboBoxTipo.setEnabled(false);
+        jTextFieldUsuario.setEnabled(false);
+        jPasswordFieldConfirmarSenha.setEnabled(false);
+        jPasswordFieldSenha.setEnabled(false);
+        jButtonSalvar.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -333,6 +350,7 @@ public class FormUsuario extends javax.swing.JFrame {
         jComboBoxTipo.setEnabled(true);
         jPasswordFieldSenha.setEnabled(true);
         jPasswordFieldConfirmarSenha.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
@@ -341,12 +359,36 @@ public class FormUsuario extends javax.swing.JFrame {
         if(resposta == JOptionPane.YES_OPTION){
             mod.setUsuCod(Integer.parseInt(jTextFieldCod.getText()));
             dao.excluir(mod);
+            jTextFieldUsuario.setText("");
+            jPasswordFieldSenha.setText("");
+            jPasswordFieldConfirmarSenha.setText("");
+            jTextFieldCod.setText("");
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jTextFieldCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCodActionPerformed
+
+    private void jTableUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuarioMouseClicked
+        String nome_usuario = ""+jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1);
+        conex.conexao();
+        conex.executaSql("select *from usuarios where usu_nome='"+nome_usuario+"'");
+        try {
+            conex.rs.first();
+            jTextFieldCod.setText(String.valueOf(conex.rs.getInt("usu_cod")));
+            jTextFieldUsuario.setText(conex.rs.getString("usu_nome"));
+            jComboBoxTipo.setSelectedItem(conex.rs.getString("usu_tipo"));
+            jPasswordFieldSenha.setText(conex.rs.getString("usu_senha"));
+            jPasswordFieldConfirmarSenha.setText(conex.rs.getString("usu_senha"));
+            jButtonAlterar.setEnabled(true);
+            jButtonExcluir.setEnabled(true);
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados do usuario!"+ ex);
+        }
+        conex.desconecta();
+    }//GEN-LAST:event_jTableUsuarioMouseClicked
     
     public void preencherTabela(String Sql){
         ArrayList dados = new ArrayList();
