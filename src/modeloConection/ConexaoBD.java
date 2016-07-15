@@ -35,6 +35,15 @@ public class ConexaoBD {
         }
     }
     
+    public void executaSql (String sql){
+        try {
+            stm = con.createStatement(rs.TYPE_SCROLL_INSENSITIVE, rs.CONCUR_READ_ONLY);
+            rs = stm.executeQuery(sql);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executaSql \n"+ ex.getMessage());
+        }
+    }
+    
     public void desconecta (){
         try {
             con.close();

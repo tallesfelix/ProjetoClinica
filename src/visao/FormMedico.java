@@ -110,7 +110,18 @@ public class FormMedico extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTableMedicos);
 
+        jTextFieldPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPesquisaActionPerformed(evt);
+            }
+        });
+
         jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
 
         jFormattedTextFieldCrm.setEnabled(false);
 
@@ -248,6 +259,20 @@ public class FormMedico extends javax.swing.JFrame {
         jFormattedTextFieldCrm.setEnabled(true);
         
     }//GEN-LAST:event_jButtonNovoActionPerformed
+
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+        mod.setPesquisa(jTextFieldPesquisa.getText());
+        BeansMedico model = control.buscaMedico(mod);
+        jTextFieldNome.setText(model.getNome());
+        jFormattedTextFieldCrm.setText(String.valueOf(model.getCrm()));
+        jComboBoxEspecialidade.setSelectedItem(model.getEspecialidade());
+        jButtonEditar.setEnabled(true);
+        jButtonExcluir.setEnabled(true);
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+    private void jTextFieldPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPesquisaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPesquisaActionPerformed
 
     /**
      * @param args the command line arguments

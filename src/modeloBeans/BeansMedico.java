@@ -14,6 +14,7 @@ public class BeansMedico {
     private String nome;
     private String especialidade;
     private int crm;
+    private String pesquisa;
 
     /**
      * @return the codigo
@@ -69,6 +70,20 @@ public class BeansMedico {
      */
     public void setCrm(int crm) {
         this.crm = crm;
+    }
+
+    /**
+     * @return the pesquisa
+     */
+    public String getPesquisa() {
+        return pesquisa;
+    }
+
+    /**
+     * @param pesquisa the pesquisa to set
+     */
+    public void setPesquisa(String pesquisa) {
+        this.pesquisa = pesquisa;
     }
     
     
