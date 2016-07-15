@@ -5,10 +5,14 @@
  */
 package visao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import modeloConection.ConexaoBD;
 import modeloDao.DaoMedico;
 import modeloBeans.BeansMedico;
+import modeloBeans.ModeloTabela;
 
 /**
  *
@@ -26,6 +30,7 @@ public class FormMedico extends javax.swing.JFrame {
      */
     public FormMedico() {
         initComponents();
+        preencherTabela("select *from medicos order by nome_medico");
     }
 
     /**
@@ -157,7 +162,7 @@ public class FormMedico extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                             .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(71, 71, 71)
@@ -244,10 +249,7 @@ public class FormMedico extends javax.swing.JFrame {
                 .addGap(373, 373, 373)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,6 +372,38 @@ public class FormMedico extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
+    
+    public void preencherTabela(String Sql){
+        ArrayList dados = new ArrayList();
+        String[] colunas = new String[]{"ID","Nome","Especialidade","CRM"};
+        conex.conexao();
+        conex.executaSql(Sql);
+        try{
+            conex.rs.first();
+            do{
+                dados.add(new Object[]{conex.rs.getInt("cod_medico"),conex.rs.getString("nome_medico"),conex.rs.getString("especialidade_medico"),conex.rs.getInt("crm_medico")});
+            }while(conex.rs.next());
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher ArrayList" + ex);
+        }
+        
+        ModeloTabela modelo = new ModeloTabela(dados, colunas);
+        jTableMedicos.setModel(modelo);
+        jTableMedicos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jTableMedicos.getColumnModel().getColumn(0).setResizable(false);
+        jTableMedicos.getColumnModel().getColumn(1).setPreferredWidth(220);
+        jTableMedicos.getColumnModel().getColumn(1).setResizable(false);
+        jTableMedicos.getColumnModel().getColumn(2).setPreferredWidth(110);
+        jTableMedicos.getColumnModel().getColumn(2).setResizable(false);
+        jTableMedicos.getColumnModel().getColumn(3).setPreferredWidth(115);
+        jTableMedicos.getColumnModel().getColumn(3).setResizable(false);
+        jTableMedicos.getTableHeader().setReorderingAllowed(false);
+        jTableMedicos.setAutoResizeMode(jTableMedicos.AUTO_RESIZE_OFF);// tabela nao vai poder se redimensionada
+        jTableMedicos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//selecionar um por vez
+        conex.desconecta();
+        
+    }
     /**
      * @param args the command line arguments
      */
