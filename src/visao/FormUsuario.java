@@ -6,6 +6,7 @@
 package visao;
 
 import javax.swing.JOptionPane;
+import modeloBeans.BeansMedico;
 import modeloBeans.BeansUsuario;
 import modeloDao.DaoUsuario;
 
@@ -96,6 +97,11 @@ public class FormUsuario extends javax.swing.JFrame {
         jButtonCancelar.setText("Cancelar");
 
         jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -244,7 +250,7 @@ public class FormUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo Senha vazio!");
             jPasswordFieldSenha.requestFocus();
         }else if(flag == 1 ){
-        mod.setUsoNome(jTextFieldUsuario.getText());
+        mod.setUsuNome(jTextFieldUsuario.getText());
         mod.setUsuTipo((String) jComboBoxTipo.getSelectedItem());
         mod.setUsuSenha(jPasswordFieldSenha.getText());
         dao.salvar(mod);
@@ -259,6 +265,15 @@ public class FormUsuario extends javax.swing.JFrame {
         jButtonSalvar.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+         mod.setUsuPesquisa(jTextFieldPesquisar.getText());
+        BeansUsuario model = dao.buscaUsuario(mod);
+        jTextFieldUsuario.setText(model.getUsuNome());
+        jPasswordFieldSenha.setText(model.getUsuSenha());
+        jPasswordFieldConfirmarSenha.setText((model.getUsuSenha()));
+        jComboBoxTipo.setSelectedItem(model.getUsuTipo());
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
     
     /**
      * @param args the command line arguments
