@@ -5,17 +5,23 @@
  */
 package visao;
 
+import modeloConection.ConexaoBD;
+
 /**
  *
  * @author Talles
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-
+    
+    
+    ConexaoBD conecta = new ConexaoBD();
+       
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
         initComponents();
+        conecta.conexao();
     }
 
     /**
@@ -207,6 +213,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFecharBemVindoActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        conecta.desconecta();
         System.exit(0); 
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
