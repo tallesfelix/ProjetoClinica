@@ -57,4 +57,22 @@ public class DaoMedico {
         conex.desconecta();
         return mod;
     }
+    
+    public void editar (BeansMedico mod){
+        conex.conexao();
+        try {
+            PreparedStatement pst = conex.con.prepareStatement("update medicos set nome_medico=?,especialidade_medico=?,crm_medico=? where cod_medico=?");
+            pst.setString(1, mod.getNome());
+            pst.setString(2, mod.getEspecialidade());
+            pst.setInt(3, mod.getCrm());
+            pst.setInt(4, mod.getCodigo());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+            
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro na alteração dos dados: \n" +ex.getMessage());
+        }
+        conex.desconecta();
+    }
 }
