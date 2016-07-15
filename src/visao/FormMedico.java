@@ -295,6 +295,8 @@ public class FormMedico extends javax.swing.JFrame {
         jFormattedTextFieldCrm.setEnabled(false);
         jButtonSalvar.setEnabled(false);
         jButtonCancelar.setEnabled(false);
+        jButtonPesquisar.setEnabled(true);
+        jTextFieldPesquisa.setEnabled(true);
         preencherTabela("select *from medicos order by nome_medico");
         }else{
             mod.setCodigo(Integer.parseInt(jTCod.getText()));
@@ -344,6 +346,7 @@ public class FormMedico extends javax.swing.JFrame {
         jTCod.setText(String.valueOf(model.getCodigo()));
         jFormattedTextFieldCrm.setText(String.valueOf(model.getCrm()));
         jComboBoxEspecialidade.setSelectedItem(model.getEspecialidade());
+        preencherTabela("select *from medicos where nome_medico like '%" + mod.getPesquisa()+ "%'");
         
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
@@ -435,7 +438,7 @@ public class FormMedico extends javax.swing.JFrame {
             }while(conex.rs.next());
             
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher ArrayList" + ex);
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher a tabela, medico nao encontrado");
         }
         
         ModeloTabela modelo = new ModeloTabela(dados, colunas);
