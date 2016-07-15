@@ -277,7 +277,13 @@ public class FormMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxEspecialidadeActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if(flag == 1 ){
+        if(jTextFieldNome.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo Nome vazio!");
+            jTextFieldNome.requestFocus();
+        }else if(jFormattedTextFieldCrm.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo CRM vazio!");
+            jFormattedTextFieldCrm.requestFocus();
+        }else if(flag == 1 ){
         mod.setNome(jTextFieldNome.getText());
         mod.setEspecialidade((String) jComboBoxEspecialidade.getSelectedItem());
         mod.setCrm(Integer.parseInt(jFormattedTextFieldCrm.getText()));
@@ -289,6 +295,7 @@ public class FormMedico extends javax.swing.JFrame {
         jFormattedTextFieldCrm.setEnabled(false);
         jButtonSalvar.setEnabled(false);
         jButtonCancelar.setEnabled(false);
+        preencherTabela("select *from medicos order by nome_medico");
         }else{
             mod.setCodigo(Integer.parseInt(jTCod.getText()));
             mod.setNome(jTextFieldNome.getText());
@@ -304,6 +311,7 @@ public class FormMedico extends javax.swing.JFrame {
             jButtonSalvar.setEnabled(false);
             jButtonNovo.setEnabled(true);
             jButtonCancelar.setEnabled(false);
+            preencherTabela("select *from medicos order by nome_medico");
                  
         }
         
@@ -316,6 +324,14 @@ public class FormMedico extends javax.swing.JFrame {
         jComboBoxEspecialidade.setEnabled(true);
         jButtonSalvar.setEnabled(true);
         jButtonCancelar.setEnabled(true);
+        jTextFieldNome.setText("");
+        jTextFieldPesquisa.setText("");
+        jFormattedTextFieldCrm.setText("");
+        jButtonEditar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        jTextFieldPesquisa.setEnabled(false);
+        jTCod.setText("");
+        jButtonPesquisar.setEnabled(false);
         
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
@@ -327,8 +343,7 @@ public class FormMedico extends javax.swing.JFrame {
         jTCod.setText(String.valueOf(model.getCodigo()));
         jFormattedTextFieldCrm.setText(String.valueOf(model.getCrm()));
         jComboBoxEspecialidade.setSelectedItem(model.getEspecialidade());
-        jButtonEditar.setEnabled(true);
-        jButtonExcluir.setEnabled(true);
+        
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     private void jTextFieldPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPesquisaActionPerformed
@@ -344,6 +359,13 @@ public class FormMedico extends javax.swing.JFrame {
         jButtonNovo.setEnabled(true);
         jButtonEditar.setEnabled(false);
         jButtonExcluir.setEnabled(false);
+        
+        jTextFieldPesquisa.setEnabled(true);
+        jButtonPesquisar.setEnabled(true);
+        jTCod.setText("");
+        jTextFieldNome.setText("");
+        jFormattedTextFieldCrm.setText("");
+        
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
@@ -375,6 +397,7 @@ public class FormMedico extends javax.swing.JFrame {
             jButtonCancelar.setEnabled(false);
             jButtonEditar.setEnabled(false);
             jButtonExcluir.setEnabled(false);
+            preencherTabela("select *from medicos order by nome_medico");
             
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
