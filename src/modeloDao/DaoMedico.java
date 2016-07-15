@@ -50,7 +50,7 @@ public class DaoMedico {
             mod.setCrm(conex.rs.getInt("crm_medico"));
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao buscar medico" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Medico nao encontrado!");
         }
         
         

@@ -55,7 +55,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuFerramenta = new javax.swing.JMenu();
         jMenuItemTelaBemVindo = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
-        jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -178,15 +177,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenuFerramenta);
 
         jMenuSair.setText("Sair");
-
-        jMenuItemSair.setText("Sair");
-        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemSairActionPerformed(evt);
+        jMenuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSairMouseClicked(evt);
             }
         });
-        jMenuSair.add(jMenuItemSair);
-
         jMenuBar1.add(jMenuSair);
 
         setJMenuBar(jMenuBar1);
@@ -212,21 +207,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jInternalFrameBemVindo.dispose();
     }//GEN-LAST:event_jButtonFecharBemVindoActionPerformed
 
-    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
-        conecta.desconecta();
-        System.exit(0); 
-    }//GEN-LAST:event_jMenuItemSairActionPerformed
-
     private void jMenuItemTelaBemVindoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTelaBemVindoActionPerformed
-        TelaPrincipal tela = new TelaPrincipal();
-        tela.setVisible(true);
-        dispose();
+        jInternalFrameBemVindo.setVisible(true);
     }//GEN-LAST:event_jMenuItemTelaBemVindoActionPerformed
 
     private void jMenuItemCadMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadMedicosActionPerformed
        FormMedico tela  = new FormMedico();
        tela.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadMedicosActionPerformed
+
+    private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenuSairMouseClicked
 
     /**
      * @param args the command line arguments
@@ -282,7 +274,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCadMedicos;
     private javax.swing.JMenuItem jMenuItemCadPacientes;
     private javax.swing.JMenuItem jMenuItemCadUsuarios;
-    private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemTelaBemVindo;
     private javax.swing.JMenu jMenuRelatorio;
     private javax.swing.JMenu jMenuSair;
