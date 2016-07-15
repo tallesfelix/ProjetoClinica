@@ -157,6 +157,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuCadastro.add(jMenuItemCadEnfemeiras);
 
         jMenuItemCadUsuarios.setText("Usuários");
+        jMenuItemCadUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadUsuariosActionPerformed(evt);
+            }
+        });
         jMenuCadastro.add(jMenuItemCadUsuarios);
 
         jMenuBar1.add(jMenuCadastro);
@@ -219,6 +224,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jMenuSairMouseClicked
+
+    private void jMenuItemCadUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadUsuariosActionPerformed
+        FormUsuario tela = new FormUsuario();
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadUsuariosActionPerformed
 
     /**
      * @param args the command line arguments
