@@ -333,6 +333,7 @@ public class FormMedico extends javax.swing.JFrame {
         jTCod.setText("");
         jButtonPesquisar.setEnabled(false);
         
+        
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
