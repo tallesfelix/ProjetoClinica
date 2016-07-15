@@ -7,6 +7,8 @@ package visao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import modeloConection.ConexaoBD;
@@ -132,6 +134,11 @@ public class FormMedico extends javax.swing.JFrame {
 
             }
         ));
+        jTableMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMedicosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableMedicos);
 
         jTextFieldPesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -371,6 +378,25 @@ public class FormMedico extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jTableMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedicosMouseClicked
+        String nome_medico = ""+jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 1);
+        conex.conexao();
+        conex.executaSql("select *from medicos where nome_medico='"+nome_medico+"'");
+        try {
+            conex.rs.first();
+            jTCod.setText(String.valueOf(conex.rs.getInt("cod_medico")));
+            jTextFieldNome.setText(conex.rs.getString("nome_medico"));
+            jComboBoxEspecialidade.setSelectedItem(conex.rs.getString("especialidade_medico"));
+            jFormattedTextFieldCrm.setText(conex.rs.getString("crm_medico"));
+            jButtonEditar.setEnabled(true);
+            jButtonExcluir.setEnabled(true);
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ ex);
+        }
+        conex.desconecta();
+    }//GEN-LAST:event_jTableMedicosMouseClicked
 
     
     public void preencherTabela(String Sql){
