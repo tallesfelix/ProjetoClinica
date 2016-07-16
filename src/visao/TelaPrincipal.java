@@ -19,6 +19,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     
     ConexaoBD conecta = new ConexaoBD();
+    FormMedico tela  = new FormMedico();
+    FormUsuario telaUso = new FormUsuario();
        
     /**
      * Creates new form TelaPrincipal
@@ -221,12 +223,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemCadEnfemeirasActionPerformed
 
     private void jButtonCadMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadMedicoActionPerformed
-        try {
+         try {
             conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
             conecta.rs.first();
             if(conecta.rs.getString("usu_tipo").equals("Administrador")){
-                FormMedico tela  = new FormMedico();
-                tela.setVisible(true);
+                if(tela==null){
+                    tela=new FormMedico();
+                    tela.setVisible(true);
+                    tela.setResizable(false);
+                }else{
+                    tela.setVisible(true);
+                    tela.setResizable(false);   
+                }
+            
             }else{
                 JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
             }
@@ -248,8 +257,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
             conecta.rs.first();
             if(conecta.rs.getString("usu_tipo").equals("Administrador")){
-                FormMedico tela  = new FormMedico();
-                tela.setVisible(true);
+                if(tela==null){
+                    tela=new FormMedico();
+                    tela.setVisible(true);
+                    tela.setResizable(false);
+                }else{
+                    tela.setVisible(true);
+                    tela.setResizable(false);   
+                }
+            
             }else{
                 JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
             }
@@ -264,12 +280,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSairMouseClicked
 
     private void jMenuItemCadUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadUsuariosActionPerformed
-        try {
+         try {
             conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
             conecta.rs.first();
             if(conecta.rs.getString("usu_tipo").equals("Administrador")){
-                FormUsuario tela  = new FormUsuario();
-                tela.setVisible(true);
+                if(telaUso==null){
+                    telaUso=new FormUsuario();
+                    telaUso.setVisible(true);
+                    telaUso.setResizable(false);
+                }else{
+                    telaUso.setVisible(true);
+                    telaUso.setResizable(false);   
+                }
+            
             }else{
                 JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
             }
