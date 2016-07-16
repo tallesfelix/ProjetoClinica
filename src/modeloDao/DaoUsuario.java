@@ -37,22 +37,16 @@ public class DaoUsuario {
         conex.desconecta();
     }
     
-     public BeansUsuario buscaUsuario (BeansUsuario mod){
+     public BeansUsuario buscaUsuario (BeansUsuario mod) throws SQLException{
         conex.conexao();
         conex.executaSql("select *from usuarios where usu_nome like '%" + mod.getUsuPesquisa()+ "%'");
-        try {
+        
             conex.rs.first();
             mod.setUsuCod(conex.rs.getInt("usu_cod"));
             mod.setUsuNome(conex.rs.getString("usu_nome"));
             mod.setUsuSenha(conex.rs.getString("usu_senha"));
             mod.setUsuTipo(conex.rs.getString("usu_tipo"));
-            
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Usuario nao cadastrado!");
-        }
-        
-        
+
         conex.desconecta();
         return mod;
     }

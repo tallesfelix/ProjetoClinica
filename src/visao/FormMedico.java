@@ -297,6 +297,7 @@ public class FormMedico extends javax.swing.JFrame {
         jButtonCancelar.setEnabled(false);
         jButtonPesquisar.setEnabled(true);
         jTextFieldPesquisa.setEnabled(true);
+        jButtonNovo.setEnabled(true);
         preencherTabela("select *from medicos order by nome_medico");
         }else{
             mod.setCodigo(Integer.parseInt(jTCod.getText()));
@@ -334,19 +335,33 @@ public class FormMedico extends javax.swing.JFrame {
         jTextFieldPesquisa.setEnabled(false);
         jTCod.setText("");
         jButtonPesquisar.setEnabled(false);
+        jButtonNovo.setEnabled(false);
         
         
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-
+        try{
         mod.setPesquisa(jTextFieldPesquisa.getText());
         BeansMedico model = control.buscaMedico(mod);
         jTextFieldNome.setText(model.getNome());
         jTCod.setText(String.valueOf(model.getCodigo()));
         jFormattedTextFieldCrm.setText(String.valueOf(model.getCrm()));
         jComboBoxEspecialidade.setSelectedItem(model.getEspecialidade());
+        jButtonCancelar.setEnabled(true);
+        jButtonEditar.setEnabled(true);
+        jButtonExcluir.setEnabled(true);
         preencherTabela("select *from medicos where nome_medico like '%" + mod.getPesquisa()+ "%'");
+        
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Usuario nao encontrado");
+             jButtonCancelar.setEnabled(!true);
+            jButtonEditar.setEnabled(!true);
+            jButtonExcluir.setEnabled(!true);
+            jTCod.setText("");
+            jTextFieldNome.setText("");
+            jFormattedTextFieldCrm.setText("");
+        }
         
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
@@ -418,6 +433,7 @@ public class FormMedico extends javax.swing.JFrame {
             jFormattedTextFieldCrm.setText(conex.rs.getString("crm_medico"));
             jButtonEditar.setEnabled(true);
             jButtonExcluir.setEnabled(true);
+            jButtonCancelar.setEnabled(true);
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ ex);
