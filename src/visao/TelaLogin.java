@@ -5,19 +5,25 @@
  */
 package visao;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modeloConection.ConexaoBD;
 
 /**
  *
  * @author Talles
  */
 public class TelaLogin extends javax.swing.JFrame {
-
+    
+    ConexaoBD con = new ConexaoBD();
     /**
      * Creates new form TelaLogin
      */
     public TelaLogin() {
         initComponents();
+        con.conexao();
     }
 
     /**
@@ -111,13 +117,18 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordFieldSenhaActionPerformed
 
     private void jButtonAcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAcessarActionPerformed
-        if(jTextFieldUsuario.getText().equals("admin") && jPasswordFieldSenha.getText().equals("1234")){
-        
-        TelaPrincipal tela = new TelaPrincipal();
-        tela.setVisible(true);
-        dispose();
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Senha ou Usuário Inválidos");
+        try {
+            con.executaSql("select *from usuarios where usu_nome='"+jTextFieldUsuario.getText()+"'");
+            con.rs.first();
+            if(con.rs.getString("usu_senha").equals(jPasswordFieldSenha.getText())){
+                TelaPrincipal tela = new TelaPrincipal();
+                tela.setVisible(true);
+                dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Senha ou Usuario invalidos!");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Senha ou Usuario invalidos!");
         }
         
     }//GEN-LAST:event_jButtonAcessarActionPerformed
