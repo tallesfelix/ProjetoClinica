@@ -121,7 +121,7 @@ public class TelaLogin extends javax.swing.JFrame {
             con.executaSql("select *from usuarios where usu_nome='"+jTextFieldUsuario.getText()+"'");
             con.rs.first();
             if(con.rs.getString("usu_senha").equals(jPasswordFieldSenha.getText())){
-                TelaPrincipal tela = new TelaPrincipal();
+                TelaPrincipal tela = new TelaPrincipal(jTextFieldUsuario.getText());
                 tela.setVisible(true);
                 dispose();
             }else{
