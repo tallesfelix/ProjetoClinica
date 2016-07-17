@@ -20,7 +20,9 @@ import modeloConection.ConexaoBD;
 public class DaoPaciente {
     
     ConexaoBD conex = new ConexaoBD();
+    ConexaoBD conexBairro = new ConexaoBD();
     int codBai;
+    String nomeBairro;
     
     public void buscaBaiCod(String nome){//busca o codigo dos bairros
         conex.conexao();
@@ -77,7 +79,44 @@ public class DaoPaciente {
             JOptionPane.showMessageDialog(null, "Paciente nao alterado!");
         }
         
-        conex.desconecta();
-        
+        conex.desconecta(); 
     }
+    
+    public void buscaNomeBairro(int cod){
+        conexBairro.conexao();   
+        try {
+            conexBairro.executaSql("select *from bairro where baicodigo='"+cod+"'");
+            conexBairro.rs.first();
+            nomeBairro = conexBairro.rs.getString("bainome");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar nome do bairro"+ex);
+        }
+        
+        conexBairro.desconecta();
+    }
+    
+    public BeansPacientes buscaPacientes (BeansPacientes pac){
+        conex.conexao();
+            
+        try {
+            conex.executaSql("select *from pacientes where paci_nome like'%"+pac.getPesquisa()+"%'");
+            conex.rs.first();
+            buscaNomeBairro(conex.rs.getInt("paci_baicodigo"));
+            pac.setNomePac(conex.rs.getString("paci_nome"));
+            pac.setCep(conex.rs.getString("paci_cep"));
+            pac.setCodPac(conex.rs.getInt("paci_codigo"));
+            pac.setComplemento(conex.rs.getString("paci_complemento"));
+            pac.setNasc(conex.rs.getString("paci_nasc"));
+            pac.setRg(conex.rs.getString("paci_rg"));
+            pac.setTelefone(conex.rs.getString("paci_telefone"));
+            pac.setRua(conex.rs.getString("paci_rua"));
+            pac.setNomeBairro(nomeBairro);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar nome do paciente");
+        }
+            
+        conex.desconecta();
+        return pac;
+    }
+    
 }

@@ -197,6 +197,11 @@ public class FormPaciente extends javax.swing.JFrame {
         jLabel11.setText("Pesquisa:");
 
         jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("ID");
 
@@ -417,6 +422,20 @@ public class FormPaciente extends javax.swing.JFrame {
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
         flag=2;
     }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        pac.setPesquisa(jTextFieldPesquisa.getText());
+        BeansPacientes pac1 = dao.buscaPacientes(pac);
+        jTextFieldNome.setText(pac1.getNomePac());
+        jTextFieldCodPac.setText(String.valueOf(pac1.getCodPac()));
+        jFormattedTextFieldDtNasc.setText(pac1.getNasc());
+        jFormattedTextFieldRg.setText(pac1.getRg());
+        jFormattedTextFieldTelefone.setText(pac1.getTelefone());
+        jTextFieldRua.setText(pac1.getRua());
+        jFormattedTextFieldCep.setText(pac1.getCep());
+        jTextFieldComplemento.setText(pac1.getComplemento());
+        jComboBoxBairro.setSelectedItem(pac1.getNomeBairro());
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     /**
      * @param args the command line arguments
