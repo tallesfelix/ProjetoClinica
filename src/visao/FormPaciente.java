@@ -106,11 +106,28 @@ public class FormPaciente extends javax.swing.JFrame {
 
         jLabel5.setText("Telefone:");
 
+        jTextFieldNome.setEnabled(false);
+
+        try {
+            jFormattedTextFieldDtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldDtNasc.setEnabled(false);
         jFormattedTextFieldDtNasc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFormattedTextFieldDtNascActionPerformed(evt);
             }
         });
+
+        jFormattedTextFieldRg.setEnabled(false);
+
+        try {
+            jFormattedTextFieldTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldTelefone.setEnabled(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -122,7 +139,19 @@ public class FormPaciente extends javax.swing.JFrame {
 
         jLabel10.setText("Bairro:");
 
+        jTextFieldRua.setEnabled(false);
+
+        try {
+            jFormattedTextFieldCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldCep.setEnabled(false);
+
+        jTextFieldComplemento.setEnabled(false);
+
         jComboBoxBairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxBairro.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -175,6 +204,7 @@ public class FormPaciente extends javax.swing.JFrame {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.setEnabled(false);
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
@@ -182,8 +212,15 @@ public class FormPaciente extends javax.swing.JFrame {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setEnabled(false);
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jButtonAlterar.setText("Editar");
+        jButtonAlterar.setEnabled(false);
         jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAlterarActionPerformed(evt);
@@ -191,6 +228,7 @@ public class FormPaciente extends javax.swing.JFrame {
         });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setEnabled(false);
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExcluirActionPerformed(evt);
@@ -207,6 +245,8 @@ public class FormPaciente extends javax.swing.JFrame {
         });
 
         jLabel12.setText("ID");
+
+        jTextFieldCodPac.setEnabled(false);
 
         jTablePacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -380,23 +420,20 @@ public class FormPaciente extends javax.swing.JFrame {
         if(jTextFieldNome.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Campo Nome vazio!");
             jTextFieldNome.requestFocus();
-        }else if(jFormattedTextFieldDtNasc.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo Nascimento vazio!");
+        }else if(jFormattedTextFieldDtNasc.getText().equals("  /  /    ")){
+            JOptionPane.showMessageDialog(null, "Campo Nascimento nao preenchido corretamente!");
             jFormattedTextFieldDtNasc.requestFocus();
         }else if(jFormattedTextFieldRg.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Campo RG vazio!");
             jFormattedTextFieldRg.requestFocus();
-        }else if(jFormattedTextFieldDtNasc.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo Nascimento vazio!");
-            jFormattedTextFieldDtNasc.requestFocus();
-        }else if(jFormattedTextFieldTelefone.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo Telefone vazio!");
+        }else if(jFormattedTextFieldTelefone.getText().equals("(  )    -    ")){
+            JOptionPane.showMessageDialog(null, "Campo Telefone nao preenchido corretamente!");
             jFormattedTextFieldTelefone.requestFocus();
         }else if(jTextFieldRua.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Campo Rua vazio!");
             jTextFieldRua.requestFocus();
-        }else if(jFormattedTextFieldCep.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo CEP vazio!");
+        }else if(jFormattedTextFieldCep.getText().equals("     -   ")){
+            JOptionPane.showMessageDialog(null, "Campo CEP nao preenchido corretamente!");
             jFormattedTextFieldCep.requestFocus();
         }else if(jTextFieldComplemento.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Campo Complemento vazio!");
@@ -412,6 +449,35 @@ public class FormPaciente extends javax.swing.JFrame {
         pac.setTelefone(jFormattedTextFieldTelefone.getText());
         pac.setRua(jTextFieldRua.getText());
         dao.salvar(pac);
+        
+        jTextFieldNome.setEnabled(!true);
+        jTextFieldComplemento.setEnabled(!true);
+        jTextFieldRua.setEnabled(!true);
+        jFormattedTextFieldCep.setEnabled(!true);
+        jFormattedTextFieldDtNasc.setEnabled(!true);
+        jFormattedTextFieldRg.setEnabled(!true);
+        jFormattedTextFieldTelefone.setEnabled(!true);
+        jComboBoxBairro.setEnabled(!true);
+        jTextFieldPesquisa.setEnabled(!false);
+        jTablePacientes.setEnabled(!false);
+        
+        jTextFieldCodPac.setText("");
+        jTextFieldNome.setText("");
+        jTextFieldComplemento.setText("");
+        jTextFieldRua.setText("");
+        jFormattedTextFieldCep.setText("");
+        jFormattedTextFieldDtNasc.setText("");
+        jFormattedTextFieldRg.setText("");
+        jFormattedTextFieldTelefone.setText("");
+        
+        
+        jButtonNovo.setEnabled(!false);
+        jButtonCancelar.setEnabled(!true);
+        jButtonSalvar.setEnabled(!true);
+        jButtonBuscar.setEnabled(!false);
+        
+        preencherTabela("select paci_codigo,paci_nome,paci_telefone,paci_rg,bainome from pacientes inner join bairro on paci_baicodigo = baicodigo order by paci_nome");
+
         }else{
             pac.setNomePac(jTextFieldNome.getText());
             pac.setCep(jFormattedTextFieldCep.getText());
@@ -423,30 +489,119 @@ public class FormPaciente extends javax.swing.JFrame {
             pac.setRua(jTextFieldRua.getText());
             pac.setCodPac(Integer.parseInt(jTextFieldCodPac.getText()));
             dao.editar(pac);    
+            
+                jTextFieldNome.setEnabled(!true);
+                jTextFieldComplemento.setEnabled(!true);
+                jTextFieldRua.setEnabled(!true);
+                jFormattedTextFieldCep.setEnabled(!true);
+                jFormattedTextFieldDtNasc.setEnabled(!true);
+                jFormattedTextFieldRg.setEnabled(!true);
+                jFormattedTextFieldTelefone.setEnabled(!true);
+                jComboBoxBairro.setEnabled(!true);
+                jTextFieldPesquisa.setEnabled(!false);
+                jTablePacientes.setEnabled(!false);
+
+                jTextFieldCodPac.setText("");
+                jTextFieldNome.setText("");
+                jTextFieldComplemento.setText("");
+                jTextFieldRua.setText("");
+                jFormattedTextFieldCep.setText("");
+                jFormattedTextFieldDtNasc.setText("");
+                jFormattedTextFieldRg.setText("");
+                jFormattedTextFieldTelefone.setText("");
+
+
+                jButtonNovo.setEnabled(!false);
+                jButtonCancelar.setEnabled(!true);
+                jButtonSalvar.setEnabled(!true);
+                jButtonBuscar.setEnabled(!false);
+                        
+                preencherTabela("select paci_codigo,paci_nome,paci_telefone,paci_rg,bainome from pacientes inner join bairro on paci_baicodigo = baicodigo order by paci_nome");
+
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         flag=1;
+        
+        jTextFieldNome.setEnabled(true);
+        jTextFieldComplemento.setEnabled(true);
+        jTextFieldRua.setEnabled(true);
+        jFormattedTextFieldCep.setEnabled(true);
+        jFormattedTextFieldDtNasc.setEnabled(true);
+        jFormattedTextFieldRg.setEnabled(true);
+        jFormattedTextFieldTelefone.setEnabled(true);
+        jComboBoxBairro.setEnabled(true);
+        jTextFieldPesquisa.setEnabled(false);
+        jTablePacientes.setEnabled(false);
+        
+        jButtonNovo.setEnabled(false);
+        jButtonCancelar.setEnabled(true);
         jButtonSalvar.setEnabled(true);
+        jButtonBuscar.setEnabled(false);
+        
+        jTextFieldPesquisa.setText("");
+        
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
         flag=2;
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        jButtonNovo.setEnabled(false);
+        jButtonCancelar.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
+        jButtonBuscar.setEnabled(false);
+        
+        jTextFieldNome.setEnabled(true);
+        jTextFieldComplemento.setEnabled(true);
+        jTextFieldRua.setEnabled(true);
+        jFormattedTextFieldCep.setEnabled(true);
+        jFormattedTextFieldDtNasc.setEnabled(true);
+        jFormattedTextFieldRg.setEnabled(true);
+        jFormattedTextFieldTelefone.setEnabled(true);
+        jComboBoxBairro.setEnabled(true);
+        jTextFieldPesquisa.setEnabled(false);
+        jTablePacientes.setEnabled(false);
+        
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        pac.setPesquisa(jTextFieldPesquisa.getText());
-        BeansPacientes pac1 = dao.buscaPacientes(pac);
-        jTextFieldNome.setText(pac1.getNomePac());
-        jTextFieldCodPac.setText(String.valueOf(pac1.getCodPac()));
-        jFormattedTextFieldDtNasc.setText(pac1.getNasc());
-        jFormattedTextFieldRg.setText(pac1.getRg());
-        jFormattedTextFieldTelefone.setText(pac1.getTelefone());
-        jTextFieldRua.setText(pac1.getRua());
-        jFormattedTextFieldCep.setText(pac1.getCep());
-        jTextFieldComplemento.setText(pac1.getComplemento());
-        jComboBoxBairro.setSelectedItem(pac1.getNomeBairro());
+        try{
+            pac.setPesquisa(jTextFieldPesquisa.getText());
+            BeansPacientes pac1 = dao.buscaPacientes(pac);
+            jTextFieldNome.setText(pac1.getNomePac());
+            jTextFieldCodPac.setText(String.valueOf(pac1.getCodPac()));
+            jFormattedTextFieldDtNasc.setText(pac1.getNasc());
+            jFormattedTextFieldRg.setText(pac1.getRg());
+            jFormattedTextFieldTelefone.setText(pac1.getTelefone());
+            jTextFieldRua.setText(pac1.getRua());
+            jFormattedTextFieldCep.setText(pac1.getCep());
+            jTextFieldComplemento.setText(pac1.getComplemento());
+            jComboBoxBairro.setSelectedItem(pac1.getNomeBairro());
+
+            jButtonAlterar.setEnabled(true);
+            jButtonExcluir.setEnabled(true);
+            jButtonNovo.setEnabled(false);
+            jButtonCancelar.setEnabled(true);
+            jButtonSalvar.setEnabled(false);
+        }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "Paciente nao encontrado");
+                jButtonAlterar.setEnabled(false);
+                jButtonExcluir.setEnabled(false);
+                jButtonNovo.setEnabled(true);
+                jButtonCancelar.setEnabled(false);
+                jButtonSalvar.setEnabled(false);
+            
+                jTextFieldCodPac.setText("");
+                jTextFieldNome.setText("");
+                jTextFieldComplemento.setText("");
+                jTextFieldRua.setText("");
+                jFormattedTextFieldCep.setText("");
+                jFormattedTextFieldDtNasc.setText("");
+                jFormattedTextFieldRg.setText("");
+                jFormattedTextFieldTelefone.setText("");
+        }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
@@ -454,7 +609,28 @@ public class FormPaciente extends javax.swing.JFrame {
                 if(resposta == JOptionPane.YES_OPTION){
                     pac.setCodPac(Integer.parseInt(jTextFieldCodPac.getText()));
                     dao.excluir(pac);
+                    
+                    jTextFieldCodPac.setText("");
+                    jTextFieldNome.setText("");
+                    jTextFieldComplemento.setText("");
+                    jTextFieldRua.setText("");
+                    jFormattedTextFieldCep.setText("");
+                    jFormattedTextFieldDtNasc.setText("");
+                    jFormattedTextFieldRg.setText("");
+                    jFormattedTextFieldTelefone.setText("");
+                    
+                    jButtonAlterar.setEnabled(false);
+                    jButtonExcluir.setEnabled(false);
+                    jButtonNovo.setEnabled(true);
+                    jButtonCancelar.setEnabled(false);
+                    jButtonSalvar.setEnabled(false);
+                    preencherTabela("select paci_codigo,paci_nome,paci_telefone,paci_rg,bainome from pacientes inner join bairro on paci_baicodigo = baicodigo order by paci_nome");
+
+                    
+                    
                 }
+                
+                
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jTablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePacientesMouseClicked
@@ -477,6 +653,13 @@ public class FormPaciente extends javax.swing.JFrame {
                 conexPesquisa.rs.first();
                 jComboBoxBairro.setSelectedItem(conexPesquisa.rs.getString("bainome"));
                 conexPesquisa.desconecta();
+                
+                jButtonAlterar.setEnabled(true);
+                jButtonExcluir.setEnabled(true);
+                jButtonNovo.setEnabled(false);
+                jButtonCancelar.setEnabled(true);
+                jButtonSalvar.setEnabled(false);
+                jButtonBuscar.setEnabled(true);
             
 
         } catch (SQLException ex) {
@@ -484,6 +667,37 @@ public class FormPaciente extends javax.swing.JFrame {
         }
         conex.desconecta();
     }//GEN-LAST:event_jTablePacientesMouseClicked
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jTextFieldCodPac.setText("");
+        jTextFieldNome.setText("");
+        jTextFieldComplemento.setText("");
+        jTextFieldRua.setText("");
+        jFormattedTextFieldCep.setText("");
+        jFormattedTextFieldDtNasc.setText("");
+        jFormattedTextFieldRg.setText("");
+        jFormattedTextFieldTelefone.setText("");
+        jTextFieldPesquisa.setText("");
+        
+        jTextFieldNome.setEnabled(false);
+        jTextFieldComplemento.setEnabled(false);
+        jTextFieldRua.setEnabled(false);
+        jFormattedTextFieldCep.setEnabled(false);
+        jFormattedTextFieldDtNasc.setEnabled(false);
+        jFormattedTextFieldRg.setEnabled(false);
+        jFormattedTextFieldTelefone.setEnabled(false);
+        jComboBoxBairro.setEnabled(false);
+        jTextFieldPesquisa.setEnabled(true);
+        jTablePacientes.setEnabled(true);
+        
+        jButtonNovo.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+        jButtonCancelar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        
+        
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     
     public void preencherTabela(String Sql){

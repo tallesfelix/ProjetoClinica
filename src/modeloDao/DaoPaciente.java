@@ -95,10 +95,10 @@ public class DaoPaciente {
         conexBairro.desconecta();
     }
     
-    public BeansPacientes buscaPacientes (BeansPacientes pac){
+    public BeansPacientes buscaPacientes (BeansPacientes pac) throws SQLException{
         conex.conexao();
             
-        try {
+    
             conex.executaSql("select *from pacientes where paci_nome like'%"+pac.getPesquisa()+"%'");
             conex.rs.first();
             buscaNomeBairro(conex.rs.getInt("paci_baicodigo"));
@@ -111,9 +111,9 @@ public class DaoPaciente {
             pac.setTelefone(conex.rs.getString("paci_telefone"));
             pac.setRua(conex.rs.getString("paci_rua"));
             pac.setNomeBairro(nomeBairro);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar nome do paciente");
-        }
+      
+            
+     
             
         conex.desconecta();
         return pac;

@@ -21,6 +21,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     ConexaoBD conecta = new ConexaoBD();
     FormMedico tela  = new FormMedico();
     FormUsuario telaUso = new FormUsuario();
+    FormPaciente telaPac = new FormPaciente();
        
     /**
      * Creates new form TelaPrincipal
@@ -101,6 +102,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButtonCadPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cadPacientes.png"))); // NOI18N
         jButtonCadPacientes.setToolTipText("Pacientes");
+        jButtonCadPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadPacientesActionPerformed(evt);
+            }
+        });
         jPanelInternal.add(jButtonCadPacientes);
         jButtonCadPacientes.setBounds(280, 70, 120, 120);
 
@@ -215,7 +221,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemCadPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadPacientesActionPerformed
-        // TODO add your handling code here:
+        try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador")){
+                if(telaPac==null){
+                    telaPac=new FormPaciente();
+                    telaPac.setVisible(true);
+                    telaPac.setResizable(false);
+                }else{
+                    telaPac.setVisible(true);
+                    telaPac.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
     }//GEN-LAST:event_jMenuItemCadPacientesActionPerformed
 
     private void jMenuItemCadEnfemeirasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadEnfemeirasActionPerformed
@@ -301,6 +325,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jMenuItemCadUsuariosActionPerformed
+
+    private void jButtonCadPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadPacientesActionPerformed
+        try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador")){
+                if(telaPac==null){
+                    telaPac=new FormPaciente();
+                    telaPac.setVisible(true);
+                    telaPac.setResizable(false);
+                }else{
+                    telaPac.setVisible(true);
+                    telaPac.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
+    }//GEN-LAST:event_jButtonCadPacientesActionPerformed
 
     /**
      * @param args the command line arguments
