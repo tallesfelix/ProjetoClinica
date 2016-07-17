@@ -5,17 +5,42 @@
  */
 package visao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import modeloBeans.ModeloTabela;
+import modeloConection.ConexaoBD;
+
 /**
  *
  * @author Talles
  */
 public class FormAgenda extends javax.swing.JFrame {
-
+    
+    ConexaoBD conex = new ConexaoBD();
     /**
      * Creates new form FormAgenda
      */
     public FormAgenda() {
         initComponents();
+        preencherMedicos();
+    }
+    
+    public void preencherMedicos(){
+        conex.conexao();
+            conex.executaSql("select *from medicos order by nome_medico");
+        try {
+            conex.rs.first();
+            jComboBoxMedico.removeAllItems();
+            do{
+                jComboBoxMedico.addItem(conex.rs.getString("nome_medico"));
+            }while(conex.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro no preenchimento dos medicos"+ex);
+        }
+        
+        conex.desconecta();
     }
 
     /**
@@ -77,6 +102,11 @@ public class FormAgenda extends javax.swing.JFrame {
 
             }
         ));
+        jTablePacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePacientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTablePacientes);
 
         jComboBoxMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -198,13 +228,64 @@ public class FormAgenda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
+        preencherTabela("select paci_codigo,paci_nome,paci_telefone,paci_rg,bainome from pacientes inner join bairro on paci_baicodigo=baicodigo where paci_nome like'%"+jTextFieldPaciente.getText()+"%'");
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jTextFieldMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMotivoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMotivoActionPerformed
 
+    private void jTablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePacientesMouseClicked
+         String nome_paciente = ""+jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 1);
+        conex.conexao();
+        conex.executaSql("select *from pacientes where paci_nome='"+nome_paciente+"'");
+        try {
+            conex.rs.first();
+            jTextFieldPaciente.setText(conex.rs.getString("paci_nome"));
+
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ ex);
+        }
+        conex.desconecta();
+    }//GEN-LAST:event_jTablePacientesMouseClicked
+
+    public void preencherTabela(String Sql){
+        ArrayList dados = new ArrayList();
+        String[] colunas = new String[]{"ID","Nome","Telefone","RG","Bairro"};
+        conex.conexao();
+        conex.executaSql(Sql);
+        try{
+            conex.rs.first();
+            do{
+                dados.add(new Object[]{conex.rs.getInt("paci_codigo"),conex.rs.getString("paci_nome"),conex.rs.getString("paci_telefone"),conex.rs.getString("paci_rg"),conex.rs.getString("bainome")});
+            }while(conex.rs.next());
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher a tabela, pacientes nao encontrados");
+        }
+        
+        ModeloTabela modelo = new ModeloTabela(dados, colunas);
+        jTablePacientes.setModel(modelo);
+        jTablePacientes.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jTablePacientes.getColumnModel().getColumn(0).setResizable(false);
+        jTablePacientes.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTablePacientes.getColumnModel().getColumn(1).setResizable(false);
+        jTablePacientes.getColumnModel().getColumn(2).setPreferredWidth(120);
+        jTablePacientes.getColumnModel().getColumn(2).setResizable(false);
+        jTablePacientes.getColumnModel().getColumn(3).setPreferredWidth(150);
+        jTablePacientes.getColumnModel().getColumn(3).setResizable(false);
+        jTablePacientes.getColumnModel().getColumn(4).setPreferredWidth(135);
+        jTablePacientes.getColumnModel().getColumn(4).setResizable(false);
+        jTablePacientes.getTableHeader().setReorderingAllowed(false);
+        jTablePacientes.setAutoResizeMode(jTablePacientes.AUTO_RESIZE_OFF);// tabela nao vai poder se redimensionada
+        jTablePacientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//selecionar um por vez
+        conex.desconecta();
+        
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
