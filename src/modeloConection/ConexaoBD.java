@@ -13,7 +13,10 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
 public class ConexaoBD {
     public Statement stm; //preparar e realizar pesquisa no banco de dados
