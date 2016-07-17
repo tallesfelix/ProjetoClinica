@@ -22,6 +22,7 @@ public class FormPaciente extends javax.swing.JFrame {
     ConexaoBD conex = new ConexaoBD();
     BeansPacientes pac = new BeansPacientes();
     DaoPaciente dao= new DaoPaciente();
+    int resposta=0;
     int flag=0;
 
     /**
@@ -193,6 +194,11 @@ public class FormPaciente extends javax.swing.JFrame {
         });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Pesquisa:");
 
@@ -436,6 +442,14 @@ public class FormPaciente extends javax.swing.JFrame {
         jTextFieldComplemento.setText(pac1.getComplemento());
         jComboBoxBairro.setSelectedItem(pac1.getNomeBairro());
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        resposta = JOptionPane.showConfirmDialog(rootPane, "Deseja realmente excluir paciente?");
+                if(resposta == JOptionPane.YES_OPTION){
+                    pac.setCodPac(Integer.parseInt(jTextFieldCodPac.getText()));
+                    dao.excluir(pac);
+                }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments

@@ -119,4 +119,18 @@ public class DaoPaciente {
         return pac;
     }
     
+    public void excluir (BeansPacientes pac){
+            conex.conexao();
+        try {
+            PreparedStatement pst = conex.con.prepareStatement("delete from pacientes where paci_codigo=?");
+            pst.setInt(1, pac.getCodPac());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "paciente excluido com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir paciente");
+        }
+    
+            conex.desconecta();
+    }
+    
 }
