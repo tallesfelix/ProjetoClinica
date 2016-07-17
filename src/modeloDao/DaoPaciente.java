@@ -56,4 +56,28 @@ public class DaoPaciente {
         conex.desconecta();
         
     }
+    
+    public void editar(BeansPacientes pac){
+        buscaBaiCod(pac.getNomeBairro());
+        conex.conexao();
+        try {
+            PreparedStatement pst = conex.con.prepareStatement("update  pacientes set paci_nome=?,paci_rg=?,paci_telefone=?,paci_rua=?,paci_cep=?,paci_complemento=?,paci_baicodigo=?,paci_nasc=? where paci_codigo=?");
+            pst.setString(1, pac.getNomePac());
+            pst.setString(2, pac.getRg());
+            pst.setString(3, pac.getTelefone());
+            pst.setString(4, pac.getRua());
+            pst.setString(5, pac.getCep());
+            pst.setString(6, pac.getComplemento());
+            pst.setInt(7, codBai);
+            pst.setString(8, pac.getNasc());
+            pst.setInt(9, pac.getCodPac());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Paciente alterado com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Paciente nao alterado!");
+        }
+        
+        conex.desconecta();
+        
+    }
 }
