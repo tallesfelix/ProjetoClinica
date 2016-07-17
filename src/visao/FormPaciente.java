@@ -5,17 +5,26 @@
  */
 package visao;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modeloConection.ConexaoBD;
+
 /**
  *
  * @author Talles
  */
 public class FormPaciente extends javax.swing.JFrame {
+    
+    ConexaoBD conex = new ConexaoBD();
 
     /**
      * Creates new form FormPacientes
      */
     public FormPaciente() {
         initComponents();
+        preencherBairros();
     }
 
     /**
@@ -296,6 +305,22 @@ public class FormPaciente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void preencherBairros(){
+        conex.conexao();
+            conex.executaSql("select *from bairro order by bainome");
+        try {
+            conex.rs.first();
+            jComboBoxBairro.removeAllItems();
+            do{
+                jComboBoxBairro.addItem(conex.rs.getString("bainome"));
+            }while(conex.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro no preenchimento do bairros"+ex);
+        }
+        conex.desconecta();
+    }
+    
+    
     private void jFormattedTextFieldDtNascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDtNascActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextFieldDtNascActionPerformed
