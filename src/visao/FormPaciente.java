@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modeloBeans.BeansPacientes;
 import modeloConection.ConexaoBD;
+import modeloDao.DaoPaciente;
 
 /**
  *
@@ -18,6 +20,8 @@ import modeloConection.ConexaoBD;
 public class FormPaciente extends javax.swing.JFrame {
     
     ConexaoBD conex = new ConexaoBD();
+    BeansPacientes pac = new BeansPacientes();
+    DaoPaciente dao= new DaoPaciente();
 
     /**
      * Creates new form FormPacientes
@@ -165,6 +169,11 @@ public class FormPaciente extends javax.swing.JFrame {
         jButtonNovo.setText("Novo");
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
 
@@ -324,6 +333,18 @@ public class FormPaciente extends javax.swing.JFrame {
     private void jFormattedTextFieldDtNascActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDtNascActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextFieldDtNascActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        pac.setNomePac(jTextFieldNome.getText());
+        pac.setCep(jFormattedTextFieldCep.getText());
+        pac.setComplemento(jTextFieldComplemento.getText());
+        pac.setNasc(jFormattedTextFieldDtNasc.getText());
+        pac.setRg(jFormattedTextFieldRg.getText());
+        pac.setNomeBairro((String)jComboBoxBairro.getSelectedItem());
+        pac.setTelefone(jFormattedTextFieldTelefone.getText());
+        pac.setRua(jTextFieldRua.getText());
+        dao.salvar(pac);
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
      * @param args the command line arguments
