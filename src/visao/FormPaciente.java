@@ -219,6 +219,11 @@ public class FormPaciente extends javax.swing.JFrame {
 
             }
         ));
+        jTablePacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePacientesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTablePacientes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -451,6 +456,34 @@ public class FormPaciente extends javax.swing.JFrame {
                     dao.excluir(pac);
                 }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jTablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePacientesMouseClicked
+        String nome_paciente = ""+jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 1);
+        conex.conexao();
+        conex.executaSql("select *from pacientes where paci_nome='"+nome_paciente+"'");
+        try {
+            conex.rs.first();
+            jTextFieldCodPac.setText(String.valueOf(conex.rs.getInt("paci_codigo")));
+            jTextFieldNome.setText(conex.rs.getString("paci_nome"));
+            jFormattedTextFieldDtNasc.setText(conex.rs.getString("paci_nasc"));
+            jFormattedTextFieldRg.setText(conex.rs.getString("paci_rg"));
+            jFormattedTextFieldTelefone.setText(conex.rs.getString("paci_telefone"));
+            jTextFieldRua.setText(conex.rs.getString("paci_rua"));
+            jTextFieldComplemento.setText(conex.rs.getString("paci_complemento"));
+            jFormattedTextFieldCep.setText(conex.rs.getString("paci_cep"));
+                ConexaoBD conexPesquisa = new ConexaoBD();
+                conexPesquisa.conexao();
+                conexPesquisa.executaSql("select *from bairro where baicodigo="+conex.rs.getInt("paci_baicodigo"));
+                conexPesquisa.rs.first();
+                jComboBoxBairro.setSelectedItem(conexPesquisa.rs.getString("bainome"));
+                conexPesquisa.desconecta();
+            
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ ex);
+        }
+        conex.desconecta();
+    }//GEN-LAST:event_jTablePacientesMouseClicked
 
     
     public void preencherTabela(String Sql){
