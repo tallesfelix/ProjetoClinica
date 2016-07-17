@@ -408,6 +408,7 @@ public class FormPaciente extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro no preenchimento do bairros"+ex);
         }
+        
         conex.desconecta();
     }
     
