@@ -1,21 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modeloBeans;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 /**
+ * Classe que representa uma tabela no dominio da aplicação.
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
 public class ModeloTabela extends AbstractTableModel{
+    
+    
+    /**
+     * Linhas da tabela
+     */
     private ArrayList linhas = null;
+    
+    /**
+     * Colunas da tabela
+     */
     private String[] colunas = null;
     
+    
+    /** Construtor da tabela
+     * @param lin - Linhas da tabela
+     * @param  col - Coluna da tabela
+     */
     public ModeloTabela (ArrayList lin, String[] col){
         setLinhas(lin);
         setColunas(col);
@@ -50,18 +63,35 @@ public class ModeloTabela extends AbstractTableModel{
         this.colunas = colunas;
     }
     
+    /**
+     * @return O número de colunas
+     */
     public int getColumnCount(){
         return colunas.length;
     }
     
+    /**
+     * @return O número de linhas
+     */
     public int getRowCount(){
         return linhas.size();
     }
     
+    
+    /**
+     * @param numCol - indice de coluna
+     * @return coluna indice numCol
+     */
     public String getColumnName (int numCol){
         return colunas[numCol];
     }
     
+    
+    /**
+     * @param  numLin - indice da linha
+     * @param numCol - indice de coluna
+     * @return item dados os indices numLin x numCol
+     */
     public Object getValueAt (int numLin, int numCol){
         Object[] linha = (Object[])getLinhas().get(numLin);
         return linha[numCol];
