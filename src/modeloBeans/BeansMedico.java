@@ -1,19 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modeloBeans;
 
 /**
+ * Classe que representa um médico no dominio da aplicação.
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
 public class BeansMedico {
+     
+    /**
+     * Codigo do medico
+     */
     private int codigo;
+    
+    /**
+     * Nome do medico
+     */
     private String nome;
+    
+    /**
+     * Especialidade do medico
+     */
     private String especialidade;
+    
+    /**
+     * CRM do medico
+     */
     private int crm;
+    
+    /**
+     * Pesquisa
+     */
     private String pesquisa;
 
     /**
