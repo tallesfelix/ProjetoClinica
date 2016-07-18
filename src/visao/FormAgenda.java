@@ -5,7 +5,7 @@
  */
 package visao;
 
-import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -22,30 +22,15 @@ import modeloDao.DaoAgenda;
 public class FormAgenda extends javax.swing.JFrame {
     
     ConexaoBD conex = new ConexaoBD();
+    DaoAgenda dao = new DaoAgenda();
     BeansAgenda agenda = new BeansAgenda();
-    
+
     /**
      * Creates new form FormAgenda
      */
     public FormAgenda() {
         initComponents();
-        preencherMedicos();
-    }
-    
-    public void preencherMedicos(){
-        conex.conexao();
-            conex.executaSql("select *from medicos order by nome_medico");
-        try {
-            conex.rs.first();
-            jComboBoxMedico.removeAllItems();
-            do{
-                jComboBoxMedico.addItem(conex.rs.getString("nome_medico"));
-            }while(conex.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro no preenchimento dos medicos"+ex);
-        }
-        
-        conex.desconecta();
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_turno");
     }
 
     /**
@@ -58,45 +43,21 @@ public class FormAgenda extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextFieldPaciente = new javax.swing.JTextField();
-        jComboBoxTurno = new javax.swing.JComboBox<>();
-        jButtonBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePacientes = new javax.swing.JTable();
-        jComboBoxMedico = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jTextFieldMotivo = new javax.swing.JTextField();
-        jButtonCancelarAgendamento = new javax.swing.JButton();
-        jDateChooserData = new com.toedter.calendar.JDateChooser();
-        jButtonFinalizar = new javax.swing.JButton();
+        jTableAgenda = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jButtonAtender = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldID = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        Status = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setText("Paciente:");
-
-        jLabel3.setText("Médico");
-
-        jLabel4.setText("Turno:");
-
-        jLabel5.setText("Data:");
-
-        jComboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino", "Noturno" }));
-
-        jButtonBuscar.setText("Buscar");
-        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscarActionPerformed(evt);
-            }
-        });
-
-        jTablePacientes.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAgenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -107,214 +68,164 @@ public class FormAgenda extends javax.swing.JFrame {
 
             }
         ));
-        jTablePacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTablePacientesMouseClicked(evt);
+                jTableAgendaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTablePacientes);
+        jScrollPane1.setViewportView(jTableAgenda);
 
-        jComboBoxMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel2.setText("Agendamentos para hoje:");
 
-        jLabel7.setText("Motivo:");
-
-        jTextFieldMotivo.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAtender.setText("Atender Agendamento");
+        jButtonAtender.setEnabled(false);
+        jButtonAtender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldMotivoActionPerformed(evt);
+                jButtonAtenderActionPerformed(evt);
             }
         });
 
-        jButtonCancelarAgendamento.setText("Cancelar Agendamento");
+        jLabel3.setText("ID:");
 
-        jButtonFinalizar.setText("Finalizar Agendamento");
-        jButtonFinalizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFinalizarActionPerformed(evt);
-            }
-        });
+        jTextFieldID.setEnabled(false);
+
+        jLabel4.setText("Status");
+
+        Status.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jComboBoxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooserData, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jButtonFinalizar)
-                                    .addGap(92, 92, 92)
-                                    .addComponent(jButtonCancelarAgendamento))
-                                .addComponent(jTextFieldMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonAtender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextFieldPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(197, 197, 197))))))
+                        .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jButtonBuscar)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jComboBoxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel7))
-                    .addComponent(jDateChooserData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addComponent(jTextFieldMotivo, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                .addGap(27, 27, 27)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCancelarAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFinalizar))
-                .addGap(20, 20, 20))
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Agendamento");
+        jLabel1.setText("Agenda");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
-                .addGap(385, 385, 385)
+                .addGap(398, 398, 398)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(904, 574));
+        setSize(new java.awt.Dimension(888, 548));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        preencherTabela("select paci_codigo,paci_nome,paci_telefone,paci_rg,bainome from pacientes inner join bairro on paci_baicodigo=baicodigo where paci_nome like'%"+jTextFieldPaciente.getText()+"%'");
-    }//GEN-LAST:event_jButtonBuscarActionPerformed
+    private void jButtonAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtenderActionPerformed
+        
+        agenda.setStatus(Status.getText());
+        agenda.setAgendaCod(Integer.parseInt(jTextFieldID.getText()));
+        dao.editarStatus(agenda);
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_turno");
+    }//GEN-LAST:event_jButtonAtenderActionPerformed
 
-    private void jTextFieldMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMotivoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldMotivoActionPerformed
-
-    private void jTablePacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePacientesMouseClicked
-         String nome_paciente = ""+jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 1);
+    private void jTableAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAgendaMouseClicked
+        String motivo= ""+jTableAgenda.getValueAt(jTableAgenda.getSelectedRow(), 4);
         conex.conexao();
-        conex.executaSql("select *from pacientes where paci_nome='"+nome_paciente+"'");
+        conex.executaSql("select *from agenda where agenda_motivo='"+motivo+"'");
         try {
             conex.rs.first();
-            jTextFieldPaciente.setText(conex.rs.getString("paci_nome"));
-
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ ex);
+            jTextFieldID.setText(String.valueOf(conex.rs.getInt("agenda_cod")));
+            Status.setText(conex.rs.getString("agenda_status"));
+            Status.setEnabled(true);
+            jButtonAtender.setEnabled(true);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ e);
         }
-        conex.desconecta();
-    }//GEN-LAST:event_jTablePacientesMouseClicked
-
-    private void jButtonFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinalizarActionPerformed
-
-       agenda.setNomePac(jTextFieldPaciente.getText());
-        
-        agenda.setNomeMed((String)jComboBoxMedico.getSelectedItem());
-        
-        agenda.setTurno((String) jComboBoxTurno.getSelectedItem());
-        agenda.setMotivo(jTextFieldMotivo.getText());
-        
-        agenda.setData(jDateChooserData.getDate());
-        
-        agenda.setStatus("Aberto");
-        
-        DaoAgenda dao = new DaoAgenda();
-        
-        dao.salvar(agenda);
-       
-    }//GEN-LAST:event_jButtonFinalizarActionPerformed
-
+    }//GEN-LAST:event_jTableAgendaMouseClicked
+    
+    
+    
+    
     public void preencherTabela(String Sql){
         ArrayList dados = new ArrayList();
-        String[] colunas = new String[]{"ID","Nome","Telefone","RG","Bairro"};
+        String[] colunas = new String[]{"ID","Paciente","Turno","Medico","Motivo","Status"};
         conex.conexao();
         conex.executaSql(Sql);
         try{
             conex.rs.first();
+           
             do{
-                dados.add(new Object[]{conex.rs.getInt("paci_codigo"),conex.rs.getString("paci_nome"),conex.rs.getString("paci_telefone"),conex.rs.getString("paci_rg"),conex.rs.getString("bainome")});
+                dados.add(new Object[]{conex.rs.getInt("agenda_cod"),conex.rs.getString("paci_nome"),conex.rs.getString("agenda_turno"),conex.rs.getString("nome_medico"),conex.rs.getString("agenda_motivo"),conex.rs.getString("agenda_status")});
             }while(conex.rs.next());
             
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher a tabela, pacientes nao encontrados");
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher a tabela, consultas nao encontradas");
         }
         
         ModeloTabela modelo = new ModeloTabela(dados, colunas);
-        jTablePacientes.setModel(modelo);
-        jTablePacientes.getColumnModel().getColumn(0).setPreferredWidth(30);
-        jTablePacientes.getColumnModel().getColumn(0).setResizable(false);
-        jTablePacientes.getColumnModel().getColumn(1).setPreferredWidth(250);
-        jTablePacientes.getColumnModel().getColumn(1).setResizable(false);
-        jTablePacientes.getColumnModel().getColumn(2).setPreferredWidth(120);
-        jTablePacientes.getColumnModel().getColumn(2).setResizable(false);
-        jTablePacientes.getColumnModel().getColumn(3).setPreferredWidth(150);
-        jTablePacientes.getColumnModel().getColumn(3).setResizable(false);
-        jTablePacientes.getColumnModel().getColumn(4).setPreferredWidth(135);
-        jTablePacientes.getColumnModel().getColumn(4).setResizable(false);
-        jTablePacientes.getTableHeader().setReorderingAllowed(false);
-        jTablePacientes.setAutoResizeMode(jTablePacientes.AUTO_RESIZE_OFF);// tabela nao vai poder se redimensionada
-        jTablePacientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//selecionar um por vez
+        jTableAgenda.setModel(modelo);
+        jTableAgenda.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jTableAgenda.getColumnModel().getColumn(0).setResizable(false);
+        jTableAgenda.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTableAgenda.getColumnModel().getColumn(1).setResizable(false);
+        jTableAgenda.getColumnModel().getColumn(2).setPreferredWidth(120);
+        jTableAgenda.getColumnModel().getColumn(2).setResizable(false);
+        jTableAgenda.getColumnModel().getColumn(3).setPreferredWidth(150);
+        jTableAgenda.getColumnModel().getColumn(3).setResizable(false);
+        jTableAgenda.getColumnModel().getColumn(4).setPreferredWidth(135);
+        jTableAgenda.getColumnModel().getColumn(4).setResizable(false);
+        jTableAgenda.getColumnModel().getColumn(5).setPreferredWidth(80);
+        jTableAgenda.getColumnModel().getColumn(5).setResizable(false);
+        jTableAgenda.getTableHeader().setReorderingAllowed(false);    
+        jTableAgenda.setAutoResizeMode(jTableAgenda.AUTO_RESIZE_OFF);// tabela nao vai poder se redimensionada
+        jTableAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//selecionar um por vez
         conex.desconecta();
         
     }
-    
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -351,22 +262,15 @@ public class FormAgenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonBuscar;
-    private javax.swing.JButton jButtonCancelarAgendamento;
-    private javax.swing.JButton jButtonFinalizar;
-    private javax.swing.JComboBox<String> jComboBoxMedico;
-    private javax.swing.JComboBox<String> jComboBoxTurno;
-    private com.toedter.calendar.JDateChooser jDateChooserData;
+    private javax.swing.JTextField Status;
+    private javax.swing.JButton jButtonAtender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablePacientes;
-    private javax.swing.JTextField jTextFieldMotivo;
-    private javax.swing.JTextField jTextFieldPaciente;
+    private javax.swing.JTable jTableAgenda;
+    private javax.swing.JTextField jTextFieldID;
     // End of variables declaration//GEN-END:variables
 }

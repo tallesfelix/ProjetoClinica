@@ -22,6 +22,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     FormMedico tela  = new FormMedico();
     FormUsuario telaUso = new FormUsuario();
     FormPaciente telaPac = new FormPaciente();
+    FormAgendamento telaAgenda = new FormAgendamento();
        
     /**
      * Creates new form TelaPrincipal
@@ -117,6 +118,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButtonAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Agenda.png"))); // NOI18N
         jButtonAgenda.setToolTipText("Agendamento");
+        jButtonAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgendaActionPerformed(evt);
+            }
+        });
         jPanelInternal.add(jButtonAgenda);
         jButtonAgenda.setBounds(30, 240, 130, 130);
 
@@ -347,6 +353,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
         }
     }//GEN-LAST:event_jButtonCadPacientesActionPerformed
+
+    private void jButtonAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgendaActionPerformed
+        try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador") || conecta.rs.getString("usu_tipo").equals("Recepcionista") ){
+                if(telaAgenda==null){
+                    telaAgenda=new FormAgendamento();
+                    telaAgenda.setVisible(true);
+                    telaAgenda.setResizable(false);
+                }else{
+                    telaAgenda.setVisible(true);
+                    telaAgenda.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
+    }//GEN-LAST:event_jButtonAgendaActionPerformed
 
     /**
      * @param args the command line arguments
