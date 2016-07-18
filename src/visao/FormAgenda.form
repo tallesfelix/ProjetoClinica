@@ -81,8 +81,8 @@
                               </Group>
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jButtonFinalizarAgendamento" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jButtonFinalizar" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                                       <Component id="jButtonCancelarAgendamento" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jTextFieldMotivo" min="-2" pref="645" max="-2" attributes="0"/>
@@ -144,8 +144,8 @@
                   <Component id="jTextFieldMotivo" pref="119" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonFinalizarAgendamento" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="jButtonCancelarAgendamento" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="jButtonFinalizar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
@@ -241,17 +241,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldMotivoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonFinalizarAgendamento">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Finalizar Agendamento"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="jButtonCancelarAgendamento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar Agendamento"/>
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserData">
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonFinalizar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Finalizar Agendamento"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFinalizarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

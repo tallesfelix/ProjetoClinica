@@ -5,12 +5,15 @@
  */
 package visao;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import modeloBeans.BeansAgenda;
 import modeloBeans.ModeloTabela;
 import modeloConection.ConexaoBD;
+import modeloDao.DaoAgenda;
 
 /**
  *
@@ -19,6 +22,8 @@ import modeloConection.ConexaoBD;
 public class FormAgenda extends javax.swing.JFrame {
     
     ConexaoBD conex = new ConexaoBD();
+    BeansAgenda agenda = new BeansAgenda();
+    
     /**
      * Creates new form FormAgenda
      */
@@ -65,9 +70,9 @@ public class FormAgenda extends javax.swing.JFrame {
         jComboBoxMedico = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldMotivo = new javax.swing.JTextField();
-        jButtonFinalizarAgendamento = new javax.swing.JButton();
         jButtonCancelarAgendamento = new javax.swing.JButton();
         jDateChooserData = new com.toedter.calendar.JDateChooser();
+        jButtonFinalizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -119,9 +124,14 @@ public class FormAgenda extends javax.swing.JFrame {
             }
         });
 
-        jButtonFinalizarAgendamento.setText("Finalizar Agendamento");
-
         jButtonCancelarAgendamento.setText("Cancelar Agendamento");
+
+        jButtonFinalizar.setText("Finalizar Agendamento");
+        jButtonFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFinalizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,8 +154,8 @@ public class FormAgenda extends javax.swing.JFrame {
                                 .addComponent(jDateChooserData, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jButtonFinalizarAgendamento)
-                                    .addGap(39, 39, 39)
+                                    .addComponent(jButtonFinalizar)
+                                    .addGap(92, 92, 92)
                                     .addComponent(jButtonCancelarAgendamento))
                                 .addComponent(jTextFieldMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -192,8 +202,8 @@ public class FormAgenda extends javax.swing.JFrame {
                 .addComponent(jTextFieldMotivo, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonFinalizarAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCancelarAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonCancelarAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFinalizar))
                 .addGap(20, 20, 20))
         );
 
@@ -249,6 +259,25 @@ public class FormAgenda extends javax.swing.JFrame {
         }
         conex.desconecta();
     }//GEN-LAST:event_jTablePacientesMouseClicked
+
+    private void jButtonFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinalizarActionPerformed
+
+       agenda.setNomePac(jTextFieldPaciente.getText());
+        
+        agenda.setNomeMed((String)jComboBoxMedico.getSelectedItem());
+        
+        agenda.setTurno((String) jComboBoxTurno.getSelectedItem());
+        agenda.setMotivo(jTextFieldMotivo.getText());
+        
+        agenda.setData(jDateChooserData.getDate());
+        
+        agenda.setStatus("Aberto");
+        
+        DaoAgenda dao = new DaoAgenda();
+        
+        dao.salvar(agenda);
+       
+    }//GEN-LAST:event_jButtonFinalizarActionPerformed
 
     public void preencherTabela(String Sql){
         ArrayList dados = new ArrayList();
@@ -324,7 +353,7 @@ public class FormAgenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonCancelarAgendamento;
-    private javax.swing.JButton jButtonFinalizarAgendamento;
+    private javax.swing.JButton jButtonFinalizar;
     private javax.swing.JComboBox<String> jComboBoxMedico;
     private javax.swing.JComboBox<String> jComboBoxTurno;
     private com.toedter.calendar.JDateChooser jDateChooserData;
