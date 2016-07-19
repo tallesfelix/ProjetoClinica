@@ -22,8 +22,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     FormMedico tela  = new FormMedico();
     FormUsuario telaUso = new FormUsuario();
     FormPaciente telaPac = new FormPaciente();
-    FormAgendamento telaAgenda = new FormAgendamento();
-       
+    FormAgendamento telaAgendamento = new FormAgendamento();
+    FormAgenda telaAgenda = new FormAgenda();
+    FormConsultasRealizadas telaConsultasRealizadas = new FormConsultasRealizadas();
     /**
      * Creates new form TelaPrincipal
      */
@@ -67,6 +68,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemCadEnfemeiras = new javax.swing.JMenuItem();
         jMenuItemCadUsuarios = new javax.swing.JMenuItem();
         jMenuRelatorio = new javax.swing.JMenu();
+        jMenuItemMarcar = new javax.swing.JMenuItem();
+        jMenuItemConsultasDoDia = new javax.swing.JMenuItem();
+        jMenuItemConsultasPassadas = new javax.swing.JMenuItem();
         jMenuFerramenta = new javax.swing.JMenu();
         jMenuItemTelaBemVindo = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
@@ -197,7 +201,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuCadastro);
 
-        jMenuRelatorio.setText("Relatorios");
+        jMenuRelatorio.setText("Consultas");
+
+        jMenuItemMarcar.setText("Marcar");
+        jMenuItemMarcar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMarcarActionPerformed(evt);
+            }
+        });
+        jMenuRelatorio.add(jMenuItemMarcar);
+
+        jMenuItemConsultasDoDia.setText("Consultas do dia");
+        jMenuItemConsultasDoDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConsultasDoDiaActionPerformed(evt);
+            }
+        });
+        jMenuRelatorio.add(jMenuItemConsultasDoDia);
+
+        jMenuItemConsultasPassadas.setText("Passadas");
+        jMenuItemConsultasPassadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConsultasPassadasActionPerformed(evt);
+            }
+        });
+        jMenuRelatorio.add(jMenuItemConsultasPassadas);
+
         jMenuBar1.add(jMenuRelatorio);
 
         jMenuFerramenta.setText("Ferramentas");
@@ -359,8 +388,53 @@ public class TelaPrincipal extends javax.swing.JFrame {
             conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
             conecta.rs.first();
             if(conecta.rs.getString("usu_tipo").equals("Administrador") || conecta.rs.getString("usu_tipo").equals("Recepcionista") ){
+                if(telaAgendamento==null){
+                    telaAgendamento=new FormAgendamento();
+                    telaAgendamento.setVisible(true);
+                    telaAgendamento.setResizable(false);
+                }else{
+                    telaAgendamento.setVisible(true);
+                    telaAgendamento.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
+    }//GEN-LAST:event_jButtonAgendaActionPerformed
+
+    private void jMenuItemMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMarcarActionPerformed
+         try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador") || conecta.rs.getString("usu_tipo").equals("Recepcionista") ){
+                if(telaAgendamento==null){
+                    telaAgendamento=new FormAgendamento();
+                    telaAgendamento.setVisible(true);
+                    telaAgendamento.setResizable(false);
+                }else{
+                    telaAgendamento.setVisible(true);
+                    telaAgendamento.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
+                               
+    }//GEN-LAST:event_jMenuItemMarcarActionPerformed
+
+    private void jMenuItemConsultasDoDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConsultasDoDiaActionPerformed
+        try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador") || conecta.rs.getString("usu_tipo").equals("Recepcionista") || conecta.rs.getString("usu_tipo").equals("Medico") ){
                 if(telaAgenda==null){
-                    telaAgenda=new FormAgendamento();
+                    telaAgenda=new FormAgenda();
                     telaAgenda.setVisible(true);
                     telaAgenda.setResizable(false);
                 }else{
@@ -374,7 +448,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
         }
-    }//GEN-LAST:event_jButtonAgendaActionPerformed
+    }//GEN-LAST:event_jMenuItemConsultasDoDiaActionPerformed
+
+    private void jMenuItemConsultasPassadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConsultasPassadasActionPerformed
+       try {
+            conecta.executaSql("select *from usuarios where usu_nome='"+jLabelUsuario.getText()+"'");
+            conecta.rs.first();
+            if(conecta.rs.getString("usu_tipo").equals("Administrador") || conecta.rs.getString("usu_tipo").equals("Recepcionista") || conecta.rs.getString("usu_tipo").equals("Medico")){
+                if(telaConsultasRealizadas==null){
+                   telaConsultasRealizadas=new FormConsultasRealizadas();
+                    telaConsultasRealizadas.setVisible(true);
+                    telaConsultasRealizadas.setResizable(false);
+                }else{
+                   telaConsultasRealizadas.setVisible(true);
+                   telaConsultasRealizadas.setResizable(false);   
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Voce nao tem permissao para esta area"+ex);
+        }
+    }//GEN-LAST:event_jMenuItemConsultasPassadasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -432,6 +528,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCadMedicos;
     private javax.swing.JMenuItem jMenuItemCadPacientes;
     private javax.swing.JMenuItem jMenuItemCadUsuarios;
+    private javax.swing.JMenuItem jMenuItemConsultasDoDia;
+    private javax.swing.JMenuItem jMenuItemConsultasPassadas;
+    private javax.swing.JMenuItem jMenuItemMarcar;
     private javax.swing.JMenuItem jMenuItemTelaBemVindo;
     private javax.swing.JMenu jMenuRelatorio;
     private javax.swing.JMenu jMenuSair;

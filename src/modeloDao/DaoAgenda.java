@@ -90,6 +90,21 @@ public class DaoAgenda {
         
         conex.desconecta(); 
     }
+    
+       public void editarStatusFaltou(BeansAgenda agenda){
+        conex.conexao();
+        try {
+            PreparedStatement pst = conex.con.prepareStatement("update agenda set agenda_status=? where agenda_cod=?");
+            pst.setString(1, agenda.getStatus());
+            pst.setInt(2, agenda.getAgendaCod());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Paciente nao compareceu!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "consulta nao alterada!"+ex);
+        }
+        
+        conex.desconecta(); 
+    }
 
 }
 

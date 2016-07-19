@@ -7,13 +7,17 @@ package visao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import modeloBeans.BeansAgenda;
 import modeloBeans.ModeloTabela;
 import modeloConection.ConexaoBD;
 import modeloDao.DaoAgenda;
+
 
 /**
  *
@@ -24,13 +28,17 @@ public class FormAgenda extends javax.swing.JFrame {
     ConexaoBD conex = new ConexaoBD();
     DaoAgenda dao = new DaoAgenda();
     BeansAgenda agenda = new BeansAgenda();
+    
+    
+    
+    
 
     /**
      * Creates new form FormAgenda
      */
     public FormAgenda() {
         initComponents();
-        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_turno");
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) where agenda_data=CURRENT_DATE order by agenda_turno");
     }
 
     /**
@@ -49,8 +57,7 @@ public class FormAgenda extends javax.swing.JFrame {
         jButtonAtender = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldID = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        Status = new javax.swing.JTextField();
+        jButtonFaltou = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -89,9 +96,13 @@ public class FormAgenda extends javax.swing.JFrame {
 
         jTextFieldID.setEnabled(false);
 
-        jLabel4.setText("Status");
-
-        Status.setEnabled(false);
+        jButtonFaltou.setText("Paciente Faltou");
+        jButtonFaltou.setEnabled(false);
+        jButtonFaltou.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFaltouActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,19 +112,18 @@ public class FormAgenda extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonAtender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(jButtonFaltou, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,11 +136,11 @@ public class FormAgenda extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFaltou, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -157,7 +167,7 @@ public class FormAgenda extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(888, 548));
@@ -166,10 +176,10 @@ public class FormAgenda extends javax.swing.JFrame {
 
     private void jButtonAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtenderActionPerformed
         
-        agenda.setStatus(Status.getText());
+        agenda.setStatus("Finalizado");
         agenda.setAgendaCod(Integer.parseInt(jTextFieldID.getText()));
         dao.editarStatus(agenda);
-        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_turno");
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) where agenda_data=CURRENT_DATE order by agenda_turno");
     }//GEN-LAST:event_jButtonAtenderActionPerformed
 
     private void jTableAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAgendaMouseClicked
@@ -179,27 +189,36 @@ public class FormAgenda extends javax.swing.JFrame {
         try {
             conex.rs.first();
             jTextFieldID.setText(String.valueOf(conex.rs.getInt("agenda_cod")));
-            Status.setText(conex.rs.getString("agenda_status"));
-            Status.setEnabled(true);
             jButtonAtender.setEnabled(true);
+            jButtonFaltou.setEnabled(true);
+            preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) where agenda_data=CURRENT_DATE order by agenda_turno");
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Erro ao selecionar os dados!"+ e);
         }
     }//GEN-LAST:event_jTableAgendaMouseClicked
+
+    private void jButtonFaltouActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFaltouActionPerformed
+        agenda.setStatus("Faltou");
+        agenda.setAgendaCod(Integer.parseInt(jTextFieldID.getText()));
+        dao.editarStatusFaltou(agenda);
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) where agenda_data=CURRENT_DATE order by agenda_turno");
+    }//GEN-LAST:event_jButtonFaltouActionPerformed
     
-    
-    
+    String aberto = "Aberto";
+    String finalizado = "Finalizado";
     
     public void preencherTabela(String Sql){
         ArrayList dados = new ArrayList();
-        String[] colunas = new String[]{"ID","Paciente","Turno","Medico","Motivo","Status"};
+        String[] colunas = new String[]{"ID","Paciente","Turno","Medico","Motivo","Status","Data"};
         conex.conexao();
         conex.executaSql(Sql);
         try{
             conex.rs.first();
            
             do{
-                dados.add(new Object[]{conex.rs.getInt("agenda_cod"),conex.rs.getString("paci_nome"),conex.rs.getString("agenda_turno"),conex.rs.getString("nome_medico"),conex.rs.getString("agenda_motivo"),conex.rs.getString("agenda_status")});
+               if(conex.rs.getString("agenda_status").equals(aberto) || conex.rs.getString("agenda_status").equals(finalizado) )
+                dados.add(new Object[]{conex.rs.getInt("agenda_cod"),conex.rs.getString("paci_nome"),conex.rs.getString("agenda_turno"),conex.rs.getString("nome_medico"),conex.rs.getString("agenda_motivo"),conex.rs.getString("agenda_status"),conex.rs.getString("agenda_data")});
+               
             }while(conex.rs.next());
             
         }catch(SQLException ex){
@@ -220,6 +239,8 @@ public class FormAgenda extends javax.swing.JFrame {
         jTableAgenda.getColumnModel().getColumn(4).setResizable(false);
         jTableAgenda.getColumnModel().getColumn(5).setPreferredWidth(80);
         jTableAgenda.getColumnModel().getColumn(5).setResizable(false);
+         jTableAgenda.getColumnModel().getColumn(6).setPreferredWidth(80);
+        jTableAgenda.getColumnModel().getColumn(6).setResizable(false);
         jTableAgenda.getTableHeader().setReorderingAllowed(false);    
         jTableAgenda.setAutoResizeMode(jTableAgenda.AUTO_RESIZE_OFF);// tabela nao vai poder se redimensionada
         jTableAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//selecionar um por vez
@@ -262,12 +283,11 @@ public class FormAgenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Status;
     private javax.swing.JButton jButtonAtender;
+    private javax.swing.JButton jButtonFaltou;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableAgenda;

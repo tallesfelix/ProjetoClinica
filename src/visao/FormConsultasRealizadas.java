@@ -26,7 +26,7 @@ public class FormConsultasRealizadas extends javax.swing.JFrame {
     public FormConsultasRealizadas() {
         
         initComponents();
-        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_data");
+        preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) where agenda_data!=CURRENT_DATE order by agenda_turno");
     
     }
 
@@ -84,7 +84,7 @@ public class FormConsultasRealizadas extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Consultas Realizadas");
+        jLabel1.setText("Consultas Passadas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,7 +118,8 @@ public class FormConsultasRealizadas extends javax.swing.JFrame {
         preencherTabela("select agenda_cod,paci_nome,agenda_turno,nome_medico,agenda_motivo,agenda_status,agenda_data from agenda inner join pacientes on (agenda_codpac=paci_codigo) inner join medicos on (agenda_codmedico=cod_medico) order by agenda_data");
     }//GEN-LAST:event_jTableConsultasRealizadasMouseClicked
     
-    String aberto = "Aberto";
+    String finalizado = "Finalizado";
+    String faltou = "Faltou";
      public void preencherTabela(String Sql){
         ArrayList dados = new ArrayList();
         String[] colunas = new String[]{"ID","Paciente","Turno","Medico","Motivo","Status","Data"};
@@ -128,10 +129,10 @@ public class FormConsultasRealizadas extends javax.swing.JFrame {
             conex.rs.first();
            
             do{
-                if(conex.rs.getString("agenda_status").equals(aberto)){
+                if(conex.rs.getString("agenda_status").equals(finalizado) || conex.rs.getString("agenda_status").equals(faltou)){
+                    dados.add(new Object[]{conex.rs.getInt("agenda_cod"),conex.rs.getString("paci_nome"),conex.rs.getString("agenda_turno"),conex.rs.getString("nome_medico"),conex.rs.getString("agenda_motivo"),conex.rs.getString("agenda_status"),conex.rs.getDate("agenda_data")});
                }else{
-                   dados.add(new Object[]{conex.rs.getInt("agenda_cod"),conex.rs.getString("paci_nome"),conex.rs.getString("agenda_turno"),conex.rs.getString("nome_medico"),conex.rs.getString("agenda_motivo"),conex.rs.getString("agenda_status"),conex.rs.getDate("agenda_data")});
-                
+                 
                 }
             }while(conex.rs.next());
             

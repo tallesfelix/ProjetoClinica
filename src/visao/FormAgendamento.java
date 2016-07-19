@@ -263,7 +263,7 @@ public class FormAgendamento extends javax.swing.JFrame {
         try {
             conex.rs.first();
             jTextFieldPaciente.setText(conex.rs.getString("paci_nome"));
-            
+            preencherMedicos();
 
 
         } catch (SQLException ex) {
