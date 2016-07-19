@@ -16,10 +16,16 @@ import modeloDao.DaoMedico;
 import modeloBeans.BeansMedico;
 import modeloBeans.ModeloTabela;
 
+
 /**
+ * Classe que representa um formulario de Cadastramento, buca, edição, e exclusão de um medico no dominio da aplicação.
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
+
 public class FormMedico extends javax.swing.JFrame {
     
     BeansMedico mod = new BeansMedico();

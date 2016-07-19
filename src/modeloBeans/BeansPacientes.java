@@ -1,25 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modeloBeans;
 
 /**
+ * Classe que representa um Paciente no dominio da aplicação.
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
+
 public class BeansPacientes {
-    
+
+    /**
+     * Codigo do Paciente
+     */
     private int codPac;
+
+    /**
+     * nome do Paciente
+     */
     private String nomePac;
+
+    /**
+     * data de nascimento do Paciente
+     */
     private String nasc;
+
+    /**
+     * RG do Paciente
+     */
     private String rg;
+
+    /**
+     * Telefone do Paciente
+     */
     private String telefone;
+
+    /**
+     * Rua do Paciente
+     */
     private String rua;
+
+    /**
+     * Complemnto do endereço do Paciente
+     */
     private String complemento;
+
+    /**
+     * CEP do Paciente
+     */
     private String cep;
+
+    /**
+     * Bairro do Paciente
+     */
     private String nomeBairro;
+
+    /**
+     * Pesquisa
+     */
     private String pesquisa;
 
     /**
@@ -161,6 +200,5 @@ public class BeansPacientes {
     public void setPesquisa(String pesquisa) {
         this.pesquisa = pesquisa;
     }
-    
-    
+
 }

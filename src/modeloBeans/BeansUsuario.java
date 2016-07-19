@@ -1,19 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modeloBeans;
 
 /**
+ * Classe que representa um usuário no dominio da aplicação.
  *
- * @author Talles
+ * @author Allan Gomes
+ * @author Daniel Nunes
+ * @author Luis Eduardo
+ * @author Talles Felix
  */
 public class BeansUsuario {
+
+    /**
+     * Codigo do usuário
+     */
     private Integer usuCod;
+
+    /**
+     * Login de acesso do usuário
+     */
     private String usuNome;
+
+    /**
+     * Tipo do usuário
+     */
     private String usuTipo;
+
+    /**
+     * senha de acesso do usuário
+     */
     private String usuSenha;
+
+    /**
+     * Pesquisa do usuário
+     */
     private String usuPesquisa;
 
     /**
@@ -85,8 +104,5 @@ public class BeansUsuario {
     public void setUsuPesquisa(String usuPesquisa) {
         this.usuPesquisa = usuPesquisa;
     }
-    
-    
-    
-    
+
 }
